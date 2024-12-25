@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { AppContext } from '../../Utils/IsAdmin';
+import { useNavigate } from 'react-router-dom';
 
 const AddCustomer = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    axios.defaults.withCredentials = true;
+    const navigate = useNavigate();
+    const { isAuth, setIsAuth } = useContext(AppContext);
+
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         address: '',
-        role: 'CUSTOMER', // Default role
+        role: 'CUSTOMER'
     });
 
     const handleChange = (e) => {
@@ -17,28 +25,43 @@ const AddCustomer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError("");
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BASE_URL}/user/add`,
-                formData);
-            toast.success('Customer added successfully!');
-            console.log(response.data); // Handle response
-            setFormData({ name: '', phone: '', address: '', role: 'CUSTOMER' }); // Reset form
+                formData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setFormData({
+                name: '',
+                phone: '',
+                address: '',
+                role: 'CUSTOMER'
+            })
+            toast.success(response?.data?.message || 'Customer added successfully!');
         } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Failed to add customer';
-            toast.error(errorMessage);
-            console.error(errorMessage);
+            toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-200 to-green-200 flex items-center justify-center py-10">
-            <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
-                <h1 className="text-2xl font-bold text-blue-500 mb-4 text-center">Add Customer</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center p-4 font-semibold">
+            <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
+                <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Register Customer</h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+
                     {/* Name */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                         <input
                             type="text"
                             id="name"
@@ -47,13 +70,13 @@ const AddCustomer = () => {
                             onChange={handleChange}
                             required
                             placeholder="Enter customer name"
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         />
                     </div>
 
                     {/* Phone */}
                     <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                         <input
                             type="text"
                             id="phone"
@@ -62,22 +85,22 @@ const AddCustomer = () => {
                             onChange={handleChange}
                             required
                             placeholder="Enter phone number"
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
                         />
                     </div>
 
                     {/* Address */}
                     <div>
-                        <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
-                        <textarea
+                        <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                        <input
                             id="address"
                             name="address"
                             value={formData.address}
                             onChange={handleChange}
                             required
                             placeholder="Enter address"
-                            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        ></textarea>
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
+                        ></input>
                     </div>
 
                     {/* Role (Hidden Input) */}
@@ -87,9 +110,10 @@ const AddCustomer = () => {
                     <div className="text-center">
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+                            className={`w-full px-6 py-3 text-white font-semibold rounded-lg shadow-lg transition-transform duration-300 transform  ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700"}`}
+                            disabled={loading}
                         >
-                            Add Customer
+                            {loading ? "Registering...." : "Register Customer"}
                         </button>
                     </div>
                 </form>

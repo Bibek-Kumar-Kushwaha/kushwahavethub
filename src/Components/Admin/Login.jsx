@@ -6,10 +6,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const { isAuth, setIsAuth } = useContext(AppContext);
-  const [inputValues, setInputValues] = useState({
+  const [formData, setFormData] = useState({
     email: "",
-    password: "",
-    phone: ""
+    password: ""
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,20 +17,20 @@ const Login = () => {
   const navigate = useNavigate();
 
   // Handle input changes
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setInputValues((values) => ({ ...values, [name]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((values) => ({ ...values, [name]: value }));
   };
 
   // Handle form submission
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setError("");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/admin/login`,
-        inputValues,
+        formData,
         {
           withCredentials: true,
           headers: {
@@ -46,17 +45,17 @@ const Login = () => {
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
 
         // Reset form and context
-        setInputValues({ email: "", password: "" });
+        setFormData({ email: "", password: "" });
         setIsAuth(true);
 
         // Redirect to dashboard
         navigate("/dashboard");
         toast.success(response?.data?.message);
       } else {
-        setError("Invalid credentials");
+        toast.error(error.response?.data?.message || "Invalid credentials");
+        setError(error.response?.data?.message || "Invalid credentials");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
       setError("Something went wrong. Please try again.");
     } finally {
@@ -65,28 +64,30 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-gray-100 font-semibold">
       <form
         className="bg-white p-6 rounded shadow-md w-full max-w-sm"
         onSubmit={handleLogin}
       >
-        <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
+        <h2 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Admin Login</h2>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {error && <p className="text-red-500 text-2xl mb-4">{error}</p>}
 
+        {/* Email */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Email or Phone</label>
           <input
             type="text"
             name="email"
             placeholder="Enter your email or phone"
-            value={inputValues.email}
+            value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
+        {/* Password */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Password</label>
           <div className="relative">
@@ -94,9 +95,9 @@ const Login = () => {
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Enter your password"
-              value={inputValues.password}
+              value={formData.password}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
             <button
@@ -104,22 +105,20 @@ const Login = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-2 top-2 text-gray-500"
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
         </div>
 
         <button
           type="submit"
-          className={`w-full text-white py-2 rounded ${
-            loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`w-full px-6 py-3 text-white font-semibold rounded-lg shadow-lg transition-transform duration-300 transform  ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-purple-600 hover:bg-purple-700"}`}
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

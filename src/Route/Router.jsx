@@ -37,6 +37,13 @@ import UpdateProduct from "../Components/Product/UpdateProduct";
 import DeleteProduct from "../Components/Product/DeleteProduct";
 import GetProduct from "../Components/Product/GetProduct";
 import ProductDashboard from "../Components/Product/ProductDashboard";
+import AddSupplier from "../Components/Supplier/AddSupplier";
+import UpdateSupplier from "../Components/Supplier/UpdateSupplier";
+import DeleteSupplier from "../Components/Supplier/DeleteSupplier";
+import GetSupplier from "../Components/Supplier/GetSupplier";
+import SupplierDashboard from "../Components/Supplier/SupplierDashboard";
+import EmployeeDashboard from "../Components/Employee/EmployeeDashboard";
+import AdminProfile from "../Components/Admin/AdminProfile";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +61,7 @@ const router = createBrowserRouter([
         element: <Register />
       },
       {
-        path: "admin/update",
+        path: "admin/update/:id",
         element: <AdminUpdate />
       },
       {
@@ -65,6 +72,10 @@ const router = createBrowserRouter([
         path: "admin/dashboard",
         element: <AdminDashboard />
       },
+      {
+        path: "admin/profile",
+        element: <AdminProfile/>
+      },
 
       // for Category
       {
@@ -72,7 +83,7 @@ const router = createBrowserRouter([
         element: <AddCategory />,
       },
       {
-        path: "category/update",
+        path: "category/update/:id",
         element: <UpdateCategory />
       },
       {
@@ -118,7 +129,7 @@ const router = createBrowserRouter([
         element: <AddCustomer />
       },
       {
-        path: 'customer/update',
+        path: 'customer/update/:id',
         element: <UpdateCustomer />
       },
       {
@@ -146,7 +157,7 @@ const router = createBrowserRouter([
         element: <AddDiscount />
       },
       {
-        path: 'discount/update',
+        path: 'discount/update/:id',
         element: <UpdateDiscount />
       },
       {
@@ -164,7 +175,7 @@ const router = createBrowserRouter([
 
       // For Employee
       {
-        path: 'employee/update',
+        path: 'employee/update/:id',
         element: <UpdateEmployee />
       },
       {
@@ -173,7 +184,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'employee/dashboard',
-        element: <DiscountDashboard />
+        element: <EmployeeDashboard />
       },
 
       // For Invoice
@@ -196,7 +207,7 @@ const router = createBrowserRouter([
         element: <AddProduct />
       },
       {
-        path: 'product/update',
+        path: 'product/update/:id',
         element: <UpdateProduct />
       },
       {
@@ -210,6 +221,28 @@ const router = createBrowserRouter([
       {
         path: 'product/dashboard',
         element: <ProductDashboard />
+      },
+
+      // for Supplier
+      {
+        path: 'supplier/add',
+        element: <AddSupplier />
+      },
+      {
+        path: 'supplier/update/:id',
+        element: <UpdateSupplier />
+      },
+      {
+        path: 'supplier/delete',
+        element: <DeleteSupplier />,
+      },
+      {
+        path: 'supplier/get',
+        element: <GetSupplier />
+      },
+      {
+        path: 'supplier/dashboard',
+        element: <SupplierDashboard />
       },
     ],
 

@@ -30,7 +30,7 @@ const Header = () => {
           ) : (
             <button
               onClick={() => navigate('/')}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
+              className="bg-purple-700 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
             >
               Login
             </button>

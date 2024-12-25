@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PlusIcon, PencilIcon, UserIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { PlusIcon, PencilIcon, TrashIcon, EyeIcon, UserIcon } from '@heroicons/react/24/solid';
 
 const DashboardLayout = ({ pageName, sections }) => {
   const icons = {
     add: <PlusIcon className="w-5 h-5 mr-2" />,
     update: <PencilIcon className="w-5 h-5 mr-2" />,
-    view: <UserIcon className="w-5 h-5 mr-2" />,
+    view: <EyeIcon className="w-5 h-5 mr-2" />,
     delete: <TrashIcon className="w-5 h-5 mr-2" />,
+    user: <UserIcon className="w-5 h-5 mr-2" />
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
-      <h1 className="text-4xl font-semibold text-center mb-6">{pageName}</h1>
+    <div className="bg-gray-100 min-h-screen p-6 font-semibold">
+      <h1 className="text-4xl font-semibold text-center mb-6 text-purple-600">{pageName}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {sections.map((section, index) => (
           <div key={index} className="bg-white p-4 rounded-md shadow-md text-center">

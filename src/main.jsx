@@ -6,9 +6,7 @@ import Router from './Route/Router.jsx';
 import AuthProvider from './Utils/IsAdmin';
 
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={Router} />
     </AuthProvider>
-  </React.StrictMode>
 );
