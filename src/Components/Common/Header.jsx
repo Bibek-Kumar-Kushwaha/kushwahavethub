@@ -18,7 +18,7 @@ const Header = () => {
           </div>
           {/* Logo Text */}
           <h1 className="text-3xl font-extrabold tracking-tight">
-            <span className="text-white">Kushwaha </span>
+            <span className="text-white">Kushwaha</span>
             <span className="text-yellow-300">Pharma</span>
           </h1>
         </div>
@@ -29,7 +29,7 @@ const Header = () => {
             <Logout />
           ) : (
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/login')}
               className="bg-purple-700 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-md transition-colors duration-300"
             >
               Login

@@ -49,7 +49,7 @@ const Login = () => {
         setIsAuth(true);
 
         // Redirect to dashboard
-        navigate("/dashboard");
+        navigate("/");
         toast.success(response?.data?.message);
       } else {
         toast.error(error.response?.data?.message || "Invalid credentials");

@@ -14,6 +14,12 @@ const UpdateProduct = () => {
     const navigate = useNavigate();
     const { isAuth, setIsAuth } = useContext(AppContext);
 
+    useEffect(() => {
+        if (!isAuth) {
+          navigate("/login");
+        }
+      }, [isAuth, navigate]);
+    
     const [formData, setFormData] = useState({
         productName: '',
         categoryName: '',
@@ -71,10 +77,6 @@ const UpdateProduct = () => {
             fetchProductData();
         }
     }, [isAuth]);
-
-    if (!isAuth) {
-        navigate("/");
-    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;

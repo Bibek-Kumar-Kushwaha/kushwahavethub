@@ -12,6 +12,12 @@ const AddCategory = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, [isAuth, navigate]);
+  
   const [formData, setFormData] = useState({
     categoryName: '',
     description: ''

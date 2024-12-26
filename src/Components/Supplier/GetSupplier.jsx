@@ -14,6 +14,12 @@ const GetSupplier = () => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
+  useEffect(() => {
     const fetchSuppliers = async () => {
       setLoading(true);
       setError('');
@@ -38,8 +44,7 @@ const GetSupplier = () => {
     };
 
     if (isAuth) fetchSuppliers();
-    else navigate('/');
-  }, [isAuth, navigate]);
+  }, [isAuth]);
 
   const handleDelete = async (id) => {
     try {

@@ -1,7 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../../Utils/IsAdmin';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const { isAuth } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   const sections = [
     { name: 'Admin', description: 'Manage system, product and users', icon: '👤', route: '/admin/dashboard' },
     { name: 'Customer', description: 'Access customer details and orders', icon: '🛍️', route: '/customer/dashboard' },

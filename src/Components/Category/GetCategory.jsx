@@ -14,6 +14,12 @@ const GetCategory = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
 
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, [isAuth, navigate]);
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -35,8 +41,8 @@ const GetCategory = () => {
     };
 
     if (isAuth) fetchCategories();
-    else navigate('/');
-  }, [isAuth, navigate]);
+
+  }, [isAuth]);
 
   const handleDelete = async (id) => {
     try {

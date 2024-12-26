@@ -1,8 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../Utils/IsAdmin";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+  const { isAuth } = useContext(AppContext);
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   axios.defaults.withCredentials = true;

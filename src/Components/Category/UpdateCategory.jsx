@@ -13,6 +13,12 @@ const UpdateCategory = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   const [formData, setFormData] = useState({
     categoryName: '',
     description: ''
@@ -54,10 +60,6 @@ const UpdateCategory = () => {
       fetchCategoryData();
     }
   }, [isAuth]);
-
-  if (!isAuth) {
-    navigate("/");
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -14,6 +14,12 @@ const GetCustomer = () => {
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
 
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, [isAuth, navigate]);
+  
   useEffect(() => {
     setLoading(true);
     setError("");
@@ -41,10 +47,6 @@ const GetCustomer = () => {
       fetchUsers();
     }
   }, [isAuth]);
-
-  if (!isAuth) {
-    navigate("/");
-  }
 
   if (loading) {
     return <p className="text-green-500 text-xl">Loading...</p>;

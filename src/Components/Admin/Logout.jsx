@@ -28,7 +28,7 @@ const Logout = () => {
 
       // Update authentication state
       setIsAuth(false);
-      navigate("/");
+      navigate("/login");
       toast.success(response?.data?.message || 'Logout successful!');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Logout failed!');

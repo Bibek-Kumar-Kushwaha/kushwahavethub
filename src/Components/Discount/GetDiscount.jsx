@@ -12,6 +12,12 @@ const GetDiscount = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
 
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, [isAuth, navigate]);
+  
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
@@ -39,8 +45,7 @@ const GetDiscount = () => {
     };
 
     if (isAuth) fetchDiscounts();
-    else navigate("/");
-  }, [isAuth, navigate]);
+  }, [isAuth]);
 
   const handleDelete = async (id) => {
     // Implement the delete logic here

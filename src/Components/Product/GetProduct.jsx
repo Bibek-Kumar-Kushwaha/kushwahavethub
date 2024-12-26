@@ -14,6 +14,12 @@ const GetProduct = () => {
   const { isAuth, setIsAuth } = useContext(AppContext);
 
   useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
+  useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       setError("");
@@ -41,10 +47,6 @@ const GetProduct = () => {
       fetchProducts();
     }
   }, [isAuth]);
-
-  if (!isAuth) {
-    navigate("/");
-  }
 
   const handleView = (id) => {
     console.log(`View product with ID: ${id}`);

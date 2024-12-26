@@ -44,6 +44,7 @@ import GetSupplier from "../Components/Supplier/GetSupplier";
 import SupplierDashboard from "../Components/Supplier/SupplierDashboard";
 import EmployeeDashboard from "../Components/Employee/EmployeeDashboard";
 import AdminProfile from "../Components/Admin/AdminProfile";
+import PrintInvoice from "../Components/Invoice/PrintInvoice";
 
 const router = createBrowserRouter([
   {
@@ -51,9 +52,14 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
 
+      // Main Dashboard
+      {
+        path: '/',
+        element: <Dashboard />
+      },
       //for  Admin
       {
-        path: "/",
+        path: "/login",
         element: <Login />,
       },
       {
@@ -74,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/profile",
-        element: <AdminProfile/>
+        element: <AdminProfile />
       },
 
       // for Category
@@ -145,12 +151,6 @@ const router = createBrowserRouter([
         element: <CustomerDashboard />
       },
 
-      // Main Dashboard
-      {
-        path: 'dashboard',
-        element: <Dashboard />
-      },
-
       // For Discount
       {
         path: 'discount/add',
@@ -199,6 +199,10 @@ const router = createBrowserRouter([
       {
         path: 'invoice/dashboard',
         element: <InvoiceDashboard />
+      },
+      {
+        path: 'invoice/print/:id',
+        element: <PrintInvoice />
       },
 
       // for Product

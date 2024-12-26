@@ -16,6 +16,12 @@ const AdminProfile = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, [isAuth, navigate]);
+  
   useEffect(() => {
     const fetchAdmin = async () => {
       setLoading(true);
@@ -43,10 +49,6 @@ const AdminProfile = () => {
       fetchAdmin();
     }
   }, [isAuth]);
-
-  if (!isAuth) {
-    navigate("/");
-  }
 
   if (loading) {
     return <p className="text-green-500 text-xl">Loading...</p>;
