@@ -6,18 +6,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { AppContext } from "../../Utils/IsAdmin";
 
 const GetDiscount = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [discounts, setDiscounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
 
-    useEffect(() => {
-      if (!isAuth) {
-        navigate("/login");
-      }
-    }, [isAuth, navigate]);
-  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   useEffect(() => {
     const fetchDiscounts = async () => {
       try {
@@ -33,7 +34,7 @@ const GetDiscount = () => {
         );
 
         setDiscounts(data.data.allDiscount || []);
-        toast.success(data.message || "Discounts fetched successfully!");
+        // toast.success(data.message || "Discounts fetched successfully!");
       } catch (err) {
         const errorMsg =
           err.response?.data?.message || "Failed to fetch discounts.";
@@ -48,9 +49,31 @@ const GetDiscount = () => {
   }, [isAuth]);
 
   const handleDelete = async (id) => {
-    // Implement the delete logic here
-    toast.info(`Delete action triggered for discount ID: ${id}`);
+    if (window.confirm('Are you sure you want to delete this Discount?')) {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}/discount/delete/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        toast.success('Discount deleted successfully');
+        setDiscounts(discounts.filter(discount => discount._id !== id));
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.message || 'Try Again, something went wrong');
+        setError(error.response?.data?.message || 'Try Again, something went wrong');
+      }
+    }
   };
+
+  const filteredDiscount = discounts.filter((discount) => {
+    return (
+      discount.discountName?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   if (loading) {
     return <p className="text-green-500 text-xl text-center">Loading...</p>;
@@ -72,9 +95,18 @@ const GetDiscount = () => {
         <h1 className="text-4xl font-bold text-center text-purple-600 mb-8">
           Discount List
         </h1>
-
+        {/* Search Bar */}
+        <div className="mb-6 flex justify-center">
+          <input
+            type="text"
+            className="p-2 w-96 border border-gray-300 rounded-lg"
+            placeholder="Search by Categories Name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {discounts.map((discount) => (
+          {filteredDiscount.map((discount) => (
             <div
               key={discount._id}
               className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"

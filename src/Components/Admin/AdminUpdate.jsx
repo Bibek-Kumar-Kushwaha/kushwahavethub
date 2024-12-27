@@ -26,6 +26,7 @@ const AdminUpdate = () => {
     phone: '',
     email: '',
     password: '',
+    address: '',
     role: '',
   });
 
@@ -50,6 +51,7 @@ const AdminUpdate = () => {
             name: adminData.name || '',
             phone: adminData.phone || '',
             email: adminData.email || '',
+            address: adminData.address || '',
             password: '',
             role: adminData.role || '',
           });
@@ -161,6 +163,20 @@ const AdminUpdate = () => {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter Email"
+              required
+            />
+          </div>
+
+           {/* Address */}
+           <div className="mb-4">
+            <label className="block text-gray-700">Address</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              placeholder="Enter Address"
               required
             />
           </div>

@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { AppContext } from '../../Utils/IsAdmin';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
   const navigate = useNavigate();
-  const { isAuth, setIsAuth } = useContext(AppContext); // Assuming setIsAuth is available
+  const { setIsAuth } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
@@ -14,6 +14,7 @@ const Logout = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/admin/logout`,
+        {},
         {
           withCredentials: true,
           headers: {
@@ -23,15 +24,17 @@ const Logout = () => {
       );
 
       // Clear localStorage
-      window.localStorage.removeItem('accessToken');
-      window.localStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
 
-      // Update authentication state
+      // Update authentication state and navigate
       setIsAuth(false);
-      navigate("/login");
       toast.success(response?.data?.message || 'Logout successful!');
+      navigate('/login');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Logout failed!');
+      toast.error(
+        error.response?.data?.message || 'Something went wrong during logout.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -42,7 +45,11 @@ const Logout = () => {
       <button
         onClick={handleLogout}
         disabled={isLoading}
-        className="px-4 py-2 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 disabled:bg-gray-400 font-semibold"
+        className={`px-4 py-2 rounded-lg shadow-md font-semibold transition-colors duration-300 ${
+          isLoading
+            ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            : 'bg-red-600 text-white hover:bg-red-700'
+        }`}
       >
         {isLoading ? 'Logging Out...' : 'Logout'}
       </button>

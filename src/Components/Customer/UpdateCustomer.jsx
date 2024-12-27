@@ -83,6 +83,7 @@ const UpdateCustomer = () => {
                 }
             );
             toast.success('User updated successfully!');
+            navigate("/customer/get");
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Failed to update user';
             toast.error(errorMessage);

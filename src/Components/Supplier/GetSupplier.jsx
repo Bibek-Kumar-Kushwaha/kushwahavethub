@@ -6,6 +6,7 @@ import { AppContext } from '../../Utils/IsAdmin';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 
 const GetSupplier = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,7 +35,7 @@ const GetSupplier = () => {
           }
         );
         setSuppliers(response.data.data.supplierDetails);
-        toast.success(response?.data?.message || 'All Suppliers Fetched');
+        // toast.success(response?.data?.message || 'All Suppliers Fetched');
       } catch (error) {
         toast.error(error.response?.data?.message || 'Failed to fetch suppliers');
         setError(error.response?.data?.message || 'Failed to fetch suppliers');
@@ -47,14 +48,32 @@ const GetSupplier = () => {
   }, [isAuth]);
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${import.meta.env.VITE_BASE_URL}/supplier/delete/${id}`);
-      setSuppliers((prev) => prev.filter((supplier) => supplier._id !== id));
-      toast.success('Supplier deleted successfully');
-    } catch (error) {
-      toast.error('Failed to delete supplier');
+    if (window.confirm('Are you sure you want to delete this Supplier?')) {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}/supplier/delete/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        toast.success('Supplier deleted successfully');
+        setSuppliers(suppliers.filter(supplier => supplier._id !== id));
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.message || 'Try Again, something went wrong');
+        setError(error.response?.data?.message || 'Try Again, something went wrong');
+      }
     }
   };
+
+  const filteredSupplier = suppliers.filter((supplier) => {
+    return (
+      supplier.supplierName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      supplier.supplierPhone.includes(searchTerm)
+    );
+  });
 
   if (loading) return <p className="text-green-500 text-xl text-center mt-10">Loading...</p>;
   if (error) return <p className="text-red-500 text-xl text-center mt-10">{error}</p>;
@@ -63,8 +82,18 @@ const GetSupplier = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-semibold">
       <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Supplier List</h1>
+      {/* Search Bar */}
+      <div className="mb-6 flex justify-center">
+        <input
+          type="text"
+          className="p-2 w-96 border border-gray-300 rounded-lg"
+          placeholder="Search by Phone number and Supplier Name..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {suppliers.map((supplier) => (
+        {filteredSupplier.map((supplier) => (
           <div key={supplier._id} className="bg-white shadow-lg rounded-lg p-4">
             <div className="flex items-center mb-4 border-b pb-4">
               <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-gray-500">
@@ -93,13 +122,13 @@ const GetSupplier = () => {
               <p><span className="font-bold">Purchase Amount:</span> Rs {supplier.purchaseAmount || 0}</p>
             </div>
             <div className="flex justify-between items-center mt-4">
-              <Link
+              {/*  <Link
                 to={`/supplier/view/${supplier._id}`}
                 className="flex items-center px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition"
               >
                 <FaEye className="mr-2" />
                 View
-              </Link>
+              </Link> */}
               <div className="flex space-x-2">
                 <Link
                   to={`/supplier/update/${supplier._id}`}

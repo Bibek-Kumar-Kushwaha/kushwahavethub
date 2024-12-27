@@ -11,14 +11,6 @@ const CategoryDashboard = () => {
       icon: 'add',
       action: 'Add New Category',
     },
-    // {
-    //   name: 'Update Category',
-    //   link: '/category/update',
-    //   bgColor: 'bg-yellow-500',
-    //   hoverColor: 'bg-yellow-600',
-    //   icon: 'update',
-    //   action: 'Update Category Info',
-    // },
     {
       name: 'View Category',
       link: '/category/get',
@@ -26,14 +18,6 @@ const CategoryDashboard = () => {
       hoverColor: 'bg-green-600',
       icon: 'view',
       action: 'View Category Info',
-    },
-    {
-      name: 'Delete Category',
-      link: '/category/delete',
-      bgColor: 'bg-red-500',
-      hoverColor: 'bg-red-600',
-      icon: 'delete',
-      action: 'Delete Category',
     },
   ];
   return (

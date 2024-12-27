@@ -32,12 +32,13 @@ const AddDiscount = () => {
         `${import.meta.env.VITE_BASE_URL}/discount/add`,
         formData
       );
-      toast.success('Discount added successfully!');
-      console.log(response.data);
+
       setFormData({
         discountName: '',
         percentage: ''
       }); // Reset form
+      toast.success('Discount added successfully!');
+      navigate('/discount/get')
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to add product';
       toast.error(errorMessage);

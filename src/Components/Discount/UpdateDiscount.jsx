@@ -86,6 +86,7 @@ const updateDiscount = () => {
                 percentage: ''
             })
             toast.success('discount updated successfully!');
+            navigate('/discount/get')
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Failed to update user';
             toast.error(errorMessage);

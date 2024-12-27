@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Utils/IsAdmin";
@@ -7,12 +7,15 @@ import { AppContext } from "../../Utils/IsAdmin";
 const AddProduct = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
+
   useEffect(() => {
     if (!isAuth) {
       navigate("/login");
     }
   }, [isAuth, navigate]);
 
+  const [categoryList, setCategoryList] = useState([]);
+  const [supplierList, setSupplierList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   axios.defaults.withCredentials = true;
@@ -26,10 +29,47 @@ const AddProduct = () => {
     supplierName: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  // Fetch initial data
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const [categoryRes, supplierRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_BASE_URL}/category/get/all`, { withCredentials: true }),
+          axios.get(`${import.meta.env.VITE_BASE_URL}/supplier/get/all`, { withCredentials: true }),
+        ]);
+
+        console.log(categoryRes);
+        console.log(supplierRes);
+
+        setCategoryList(categoryRes.data.data.allCategory);
+        setSupplierList(supplierRes.data.data.supplierDetails
+        );
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch initial data.");
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
+
+  const handleCategoryChange = (value) => {
+    const category = categoryList.find(
+      (category) => category.categoryName === value
+    );
+    if (category) setCategoryList(category);
+    else setCategoryList(null)
+  }
+
+  const handleSupplierChange = (value) => {
+    const supplier = supplierList.find(
+      (supplier) => supplier.supplierName === value
+    );
+    if (supplier) setCategoryList(supplier);
+    else setCategoryList(null)
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +101,10 @@ const AddProduct = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -138,36 +182,55 @@ const AddProduct = () => {
             />
           </div>
 
-          {/* discount Name */}
+          {/* Category Name */}
           <div>
-            <label htmlFor="discountName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
               Category Name
             </label>
-            <input
+            <select
               type="text"
-              id="categoryName"
+
+              list="category-list"
               name="categoryName"
               value={formData.categoryName}
               onChange={handleChange}
               placeholder="Enter Category name"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-            />
+            >
+              <option value="">Select Category</option>
+              {Array.isArray(categoryList) &&
+                categoryList.map((category) => (
+                  <option key={category.id} value={category.categoryName}>
+                    {category.categoryName}
+                  </option>
+                ))}
+            </select>
           </div>
 
           {/* Supplier Name */}
           <div>
-            <label htmlFor="supplierName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
               Supplier Name
             </label>
-            <input
+            <select
               type="text"
               id="supplierName"
+              list="supplier-list"
               name="supplierName"
               value={formData.supplierName}
               onChange={handleChange}
-              placeholder="Enter supplier name"
+              placeholder="Enter Supplier name"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-            />
+            >
+              <option value="">Select Supplier</option>
+              <option id="supplier-list">
+                {supplierList.map((supplier) => (
+                  <option key={supplier.id} value={supplier.supplierName}>
+                    {supplier.supplierName}
+                  </option>
+                ))}
+              </option>
+            </select>
           </div>
 
           {/* Submit Button */}

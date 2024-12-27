@@ -10,16 +10,17 @@ const GetCustomer = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const { isAuth, setIsAuth } = useContext(AppContext);
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
 
-    useEffect(() => {
-      if (!isAuth) {
-        navigate("/login");
-      }
-    }, [isAuth, navigate]);
-  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   useEffect(() => {
     setLoading(true);
     setError("");
@@ -35,7 +36,6 @@ const GetCustomer = () => {
           }
         );
         setUsers(response.data.data.allUser);
-        toast.success(response?.data?.message || 'All Customer Profiles Fetched');
       } catch (err) {
         toast.error(err.response?.data?.message || 'Failed to fetch Customers');
         setError(err.response?.data?.message || 'Failed to fetch Customers');
@@ -47,6 +47,32 @@ const GetCustomer = () => {
       fetchUsers();
     }
   }, [isAuth]);
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this Customer?')) {
+      try {
+        const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/user/delete/${id}`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        toast.success('Customer deleted successfully');
+        setUsers(users.filter(user => user._id !== id));
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.message || 'Try Again, something went wrong');
+        setError(error.response?.data?.message || 'Try Again, something went wrong');
+      }
+    }
+  };
+
+  const filteredUser = users.filter((user) => {
+    return (
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.phone?.includes(searchTerm)
+    );
+  });
 
   if (loading) {
     return <p className="text-green-500 text-xl">Loading...</p>;
@@ -63,8 +89,18 @@ const GetCustomer = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-semibold">
       <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Customer List</h1>
+      {/* Search Bar */}
+      <div className="mb-6 flex justify-center">
+        <input
+          type="text"
+          className="p-2 w-96 border border-gray-300 rounded-lg"
+          placeholder="Search by Name or Phone Number..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {users.map((user) => (
+        {filteredUser.map((user) => (
           <div key={user._id} className="bg-white shadow-lg rounded-lg p-4">
             {/* Header Section */}
             <div className="flex items-center mb-4 border-b pb-4">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Utils/IsAdmin";
@@ -43,14 +43,14 @@ const AddSupplier = () => {
           },
         }
       );
-      toast.success(response?.data?.message || 'Supplier added successfully!');
 
       setFormData({
         supplierName: '',
         supplierPhone: '',
         supplierAddress: ''
       });
-
+      toast.success(response?.data?.message || 'Supplier added successfully!');
+      navigate('/supplier/get')
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
       setError("Something went wrong. Please try again.");

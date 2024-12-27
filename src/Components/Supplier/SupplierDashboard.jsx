@@ -12,28 +12,12 @@ const SupplierDashboard = () => {
       action: 'Add New Supplier',
     },
     {
-      name: 'Update Supplier',
-      link: '/supplier/update',
-      bgColor: 'bg-yellow-500',
-      hoverColor: 'bg-yellow-600',
-      icon: 'update',
-      action: 'Update Supplier Info',
-    },
-    {
       name: 'View Supplier',
       link: '/supplier/get',
       bgColor: 'bg-green-500',
       hoverColor: 'bg-green-600',
       icon: 'view',
       action: 'View Supplier Info',
-    },
-    {
-      name: 'Delete Supplier',
-      link: '/supplier/delete',
-      bgColor: 'bg-red-500',
-      hoverColor: 'bg-red-600',
-      icon: 'delete',
-      action: 'Delete Supplier',
     },
   ];
   return (

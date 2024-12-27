@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../Utils/IsAdmin';
@@ -16,12 +16,12 @@ const AdminProfile = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
-    useEffect(() => {
-      if (!isAuth) {
-        navigate("/login");
-      }
-    }, [isAuth, navigate]);
-  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   useEffect(() => {
     const fetchAdmin = async () => {
       setLoading(true);
@@ -37,7 +37,7 @@ const AdminProfile = () => {
           }
         );
         setAdmin(response.data.data);
-        toast.success(response?.data?.message || 'Admin Profile Fetched');
+        // toast.success(response?.data?.message || 'Admin Profile Fetched');
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to fetch admin profile");
         setError(error.response?.data?.message || "Failed to fetch admin profile");
@@ -83,9 +83,12 @@ const AdminProfile = () => {
             <p className="text-sm text-gray-600 lowercase">{admin.email}</p>
           </div>
         </div>
-        <div className="text-sm">
+        <div className="text-sm space-y-2">
           <p>
-            <span className="font-bold">Phone:</span> {admin.phone}
+            <span className="font-bold">Phone:</span> {admin.phone || 'N/A'}
+          </p>
+          <p>
+            <span className="font-bold">Address:</span> {admin.address || 'N/A'}
           </p>
           <p>
             <span className="font-bold">Role:</span> {admin.role}
@@ -99,26 +102,31 @@ const AdminProfile = () => {
             {new Date(admin.updatedAt).toLocaleDateString()}
           </p>
         </div>
-        <div className="flex justify-between mt-2">
-          <button
-            onClick={() => handleDelete(admin._id)}
-            className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md shadow hover:bg-red-600 transition"
-          >
-            <FaTrash className="mr-2" />
-            Delete
-          </button>
+
+
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center mt-4">
           <Link
-            to={`/admin/update/${admin.id}`}
-            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition"
+            to={`/admin/view/${admin.id}`}
+            className="flex items-center px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition"
           >
-            <FaEdit className="mr-2" />
-            Edit
+            <FaEye className="mr-2" />
+            View
           </Link>
+          <div className="flex space-x-2">
+            <Link
+              to={`/admin/update/${admin.id}`}
+              className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition"
+            >
+              <FaEdit className="mr-2" />
+              Edit
+            </Link>
+          </div>
         </div>
+        <Toaster />
       </div>
-      <Toaster />
-    </div>
-  );
+      </div>
+      );
 };
 
-export default AdminProfile;
+      export default AdminProfile;

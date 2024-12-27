@@ -7,6 +7,7 @@ import { AppContext } from '../../Utils/IsAdmin';
 import { useNavigate } from 'react-router-dom';
 
 const GetCategory = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,12 +15,12 @@ const GetCategory = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
 
-    useEffect(() => {
-      if (!isAuth) {
-        navigate("/login");
-      }
-    }, [isAuth, navigate]);
-  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -29,8 +30,9 @@ const GetCategory = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
+        console.log(response)
         setCategories(response.data.data.allCategory);
-        toast.success('Categories fetched successfully');
+        // toast.success('Categories fetched successfully');
       } catch (err) {
         const errorMsg = err.response?.data?.message || 'Failed to fetch categories';
         toast.error(errorMsg);
@@ -45,27 +47,52 @@ const GetCategory = () => {
   }, [isAuth]);
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${import.meta.env.VITE_BASE_URL}/category/delete/${id}`, {
-        headers: { "Content-Type": "application/json" },
-      });
-      setCategories(categories.filter((category) => category._id !== id));
-      toast.success('Category deleted successfully');
-    } catch (err) {
-      toast.error('Failed to delete category');
+    if (window.confirm('Are you sure you want to delete this Category?')) {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}/category/delete/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        toast.success('Category deleted successfully');
+        setCategories(categories.filter(category => category._id !== id));
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.message || 'Try Again, something went wrong');
+        setError(error.response?.data?.message || 'Try Again, something went wrong');
+      }
     }
   };
+
+  const filteredCategory = categories.filter((category) => {
+    return (
+      category.categoryName?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   if (loading) return <p className="text-green-500 text-center text-xl">Loading...</p>;
   if (error) return <p className="text-red-500 text-center text-xl">{error}</p>;
   if (!categories.length) return <p className="text-gray-500 text-center text-xl">No categories available</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 py-10 font-semibold">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">All Categories</h1>
+        <h1 className="text-4xl font-bold text-center text-purple-600 mb-8">All Categories</h1>
+        {/* Search Bar */}
+        <div className="mb-6 flex justify-center">
+          <input
+            type="text"
+            className="p-2 w-96 border border-gray-300 rounded-lg"
+            placeholder="Search by Categories Name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categories.map((category) => (
+          {filteredCategory.map((category) => (
             <div key={category._id} className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800">{category.categoryName}</h2>
               <p className="text-gray-600 mt-2">
@@ -98,7 +125,7 @@ const GetCategory = () => {
             </div>
           ))}
         </div>
-        <Toaster/>
+        <Toaster />
       </div>
     </div>
   );

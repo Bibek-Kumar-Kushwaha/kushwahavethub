@@ -11,14 +11,6 @@ const AdminDashboard = () => {
       icon: 'add',
       action: 'Add New Admin',
     },
-    // {
-    //   name: 'Update Admin',
-    //   link: '/admin/update',
-    //   bgColor: 'bg-yellow-500',
-    //   hoverColor: 'bg-yellow-600',
-    //   icon: 'update',
-    //   action: 'Update Admin Info',
-    // },
     {
       name: 'View Admin',
       link: '/admin/get',

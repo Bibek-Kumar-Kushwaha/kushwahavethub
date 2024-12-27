@@ -52,6 +52,7 @@ const Register = () => {
         phone: "",
       })
       toast.success(response?.data?.message || "Admin registered successfully!");
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
       setError("Something went wrong. Please try again.");

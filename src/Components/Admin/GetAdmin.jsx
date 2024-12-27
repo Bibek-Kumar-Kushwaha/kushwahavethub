@@ -15,12 +15,12 @@ const GetAdmin = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
-    useEffect(() => {
-      if (!isAuth) {
-        navigate("/login");
-      }
-    }, [isAuth, navigate]);
-  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
+
   useEffect(() => {
     const fetchAdmins = async () => {
       setLoading(true);
@@ -36,7 +36,7 @@ const GetAdmin = () => {
           }
         );
         setAdmins(response.data.data.allAdmin);
-        toast.success(response?.data?.message || 'All Admin Profile Fetched');
+        // toast.success(response?.data?.message || 'All Admin Profile Fetched');
       } catch (err) {
         toast.error(err.response?.data?.message || 'Failed to fetch Admin');
         setError(err.response?.data?.message || 'Failed to fetch Admin');
@@ -48,6 +48,25 @@ const GetAdmin = () => {
       fetchAdmins();
     }
   }, [isAuth]);
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this admin?')) {
+      try {
+        const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/admin/delete/${id}`, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        toast.success('Admin deleted successfully');
+        setAdmins(admins.filter(admin => admin._id !== id));
+      } catch (error) {
+        console.error(error);
+        toast.error(error.response?.data?.message || 'Try Again, something went wrong');
+        setError(error.response?.data?.message || 'Try Again, something went wrong');
+      }
+    }
+  };
 
   if (loading) {
     return <p className="text-green-500 text-xl">Loading...</p>;
@@ -135,7 +154,7 @@ const GetAdmin = () => {
                 </button>
               </div>
             </div>
-   
+
           </div>
         ))}
       </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AppContext } from "../../Utils/IsAdmin";
@@ -264,9 +264,6 @@ const CreateInvoice = () => {
             ))}
           </select>
         </div>
-
-
-        {/*  */}
 
 
         {/* for mobile  */}

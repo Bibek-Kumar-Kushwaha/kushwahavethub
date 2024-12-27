@@ -49,7 +49,7 @@ const UpdateProduct = () => {
                 );
 
                 const product = response.data.data.allProduct.find((product) => product._id === id);
-
+                console.log(product)
                 if (product) {
                     setFormData({
                         productName: product.productName || '',
@@ -109,7 +109,8 @@ const UpdateProduct = () => {
                 description: '',
                 unit: '',
             })
-            toast.success('Product updated successfully!');
+            navigate("/product/get");
+            // toast.success('Product updated successfully!');
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Failed to update Product';
             toast.error(errorMessage);

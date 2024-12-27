@@ -11,14 +11,6 @@ const DiscountDashboard = () => {
       icon: 'add',
       action: 'Add New Discount',
     },
-    // {
-    //   name: 'Update Discount',
-    //   link: '/discount/update',
-    //   bgColor: 'bg-yellow-500',
-    //   hoverColor: 'bg-yellow-600',
-    //   icon: 'update',
-    //   action: 'Update Discount Info',
-    // },
     {
       name: 'View Discount',
       link: '/discount/get',
@@ -26,15 +18,7 @@ const DiscountDashboard = () => {
       hoverColor: 'bg-green-600',
       icon: 'view',
       action: 'View Discount Info',
-    },
-    {
-      name: 'Delete Discount',
-      link: '/discount/delete',
-      bgColor: 'bg-red-500',
-      hoverColor: 'bg-red-600',
-      icon: 'delete',
-      action: 'Delete Discount',
-    },
+    }
   ];
   return (
     <>
