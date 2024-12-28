@@ -61,9 +61,8 @@ const AdminProfile = () => {
   if (!admin) {
     return <p className="text-red-500 text-xl">No admin data available</p>;
   }
-
   return (
-    <div className="min-h-screen bg-gray-100 p-4 font-semibold">
+    <div className="min-h-screen bg-gray-100 p-4 font-semibold capitalize">
       <h2 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Own Profile</h2>
       <div className="bg-white shadow-lg rounded-lg p-4 max-w-md mx-auto">
         <div className="flex items-center mb-4">
@@ -75,11 +74,11 @@ const AdminProfile = () => {
                 className="w-full h-full rounded-full"
               />
             ) : (
-              <span className="text-lg font-bold uppercase text-purple-600">{admin.name[0]}</span>
+              <span className="text-lg font-bold capitalize text-purple-600">{admin.name[0]}</span>
             )}
           </div>
           <div className="ml-4">
-            <h2 className="text-lg font-semibold uppercase text-purple-600">{admin.name}</h2>
+            <h2 className="text-lg font-semibold capitalize text-purple-600">{admin.name}</h2>
             <p className="text-sm text-gray-600 lowercase">{admin.email}</p>
           </div>
         </div>
@@ -106,13 +105,13 @@ const AdminProfile = () => {
 
         {/* Action Buttons */}
         <div className="flex justify-between items-center mt-4">
-          <Link
+          {/* <Link
             to={`/admin/view/${admin.id}`}
             className="flex items-center px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition"
           >
             <FaEye className="mr-2" />
             View
-          </Link>
+          </Link> */}
           <div className="flex space-x-2">
             <Link
               to={`/admin/update/${admin.id}`}

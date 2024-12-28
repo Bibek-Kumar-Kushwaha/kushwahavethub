@@ -52,7 +52,7 @@ const Register = () => {
         phone: "",
       })
       toast.success(response?.data?.message || "Admin registered successfully!");
-      navigate("/");
+      navigate("/admin/get");
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
       setError("Something went wrong. Please try again.");
@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 font-semibold">
+    <div className="flex items-center justify-center h-screen bg-gray-100 font-semibold capitalize">
       <form
         className="bg-white shadow-md rounded-lg p-8 w-full max-w-md"
         onSubmit={handleSubmit}
@@ -100,7 +100,7 @@ const Register = () => {
             placeholder="Enter your email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 lowercase"
             required
           />
         </div>

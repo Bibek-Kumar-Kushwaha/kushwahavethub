@@ -46,20 +46,21 @@ const GetInvoice = () => {
   const filteredInvoices = invoice.filter((inv) => {
     return (
       inv.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      inv.phone.includes(searchTerm)
+      inv.phone.includes(searchTerm) || 
+      inv.billNumber.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen font-semibold">
-      <h1 className="text-3xl font-bold text-center mb-8">Invoice List</h1>
+    <div className="p-6 bg-gray-50 min-h-screen font-semibold capitalize">
+      <h1 className="text-3xl font-extrabold text-center mb-8 text-purple-700">Invoice List</h1>
 
       {/* Search Bar */}
       <div className="mb-6 flex justify-center">
         <input
           type="text"
-          className="p-2 w-96 border border-gray-300 rounded-lg"
-          placeholder="Search by name or phone..."
+          className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          placeholder="Search by name or phone or BillNumber ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

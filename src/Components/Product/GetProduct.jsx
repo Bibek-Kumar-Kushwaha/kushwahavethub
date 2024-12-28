@@ -11,6 +11,7 @@ const GetProduct = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [maxStock, setMaxStock] = useState("");
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
@@ -71,12 +72,20 @@ const GetProduct = () => {
     }
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
+  const filteredProducts = products.filter((product) => {
+    // Check if the product name, category, or supplier matches the search term
+    const matchesName =
       product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.categoryName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.supplierName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      product.supplierName.toLowerCase().includes(searchTerm.toLowerCase());
+
+    // Check if the stock quantity is less than or equal to the max stock
+    const matchesMaxStock = maxStock === "" || product.stockQuantity <= parseFloat(maxStock);
+
+    // Return true if both conditions are met
+    return matchesName && matchesMaxStock;
+  });
+
 
   if (loading) {
     return <p className="text-green-500 text-xl">Loading...</p>;
@@ -87,20 +96,31 @@ const GetProduct = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 font-semibold">
+    <div className="min-h-screen bg-gray-100 py-8 font-semibold capitalize">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center text-purple-600 mb-8">
           All Products
         </h1>
 
         {/* Search Bar */}
-        <div className="mb-6">
+        <div 
+        className="mb-6 flex flex-col sm:flex-row gap-4 justify-center"
+        >
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by product, category, or supplier..."
             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+
+
+          <input
+            type="number"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Show Stock less than this value"
+            value={maxStock}
+            onChange={(e) => setMaxStock(e.target.value)}
           />
         </div>
 
@@ -125,7 +145,7 @@ const GetProduct = () => {
                 /> */}
 
                 <div className="mt-4">
-                  <h2 className="text-xl font-bold text-gray-800">
+                  <h2 className="text-xl font-bold text-gray-800 capitalize">
                     {product.productName}
                   </h2>
                   <p className="text-gray-600">{product.categoryName}</p>
@@ -134,17 +154,22 @@ const GetProduct = () => {
                     <span className="font-medium">{product.supplierName}</span>
                   </p>
                   <p className="text-green-600 font-semibold">
-                    ₹{product.sellingPrice}
+                    रु {product.sellingPrice}
                   </p>
                   <p className="text-gray-500 text-sm mt-2">
                     {product.description || "No description available"}
                   </p>
-                  <p className="text-gray-500 text-sm">
+                  <p
+                    className="text-lg"
+                  >
                     Stock:{" "}
-                    {product.stockQuantity > 0
-                      ? product.stockQuantity
-                      : "Out of stock"}
+                    <span
+                      className={`text-lg ${product.stockQuantity === 0 ? 'text-red-500' : 'text-green-500'}`}
+                    >
+                      {product.stockQuantity > 0 ? product.stockQuantity : "Out of stock"}
+                    </span>
                   </p>
+
                   <div className="flex space-x-2 mt-4">
                     {/* View Button */}
                     <Link

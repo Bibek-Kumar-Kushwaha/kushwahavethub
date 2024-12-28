@@ -61,7 +61,7 @@ const AddCustomer = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center p-4 font-semibold">
+        <div className="min-h-screen bg-gradient-to-r from-blue-50 to-green-50 flex items-center justify-center p-4 font-semibold capitalize">
             <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
                 <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Register Customer</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">

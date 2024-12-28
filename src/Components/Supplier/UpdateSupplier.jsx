@@ -24,7 +24,9 @@ const UpdateSupplier = () => {
         supplierName: '',
         supplierAddress: '',
         supplierPhone: '',
-        supplierEmail: ''
+        supplierEmail: '',
+        depositeAmount: '',
+        purchaseAmount: '',
     });
 
     useEffect(() => {
@@ -51,7 +53,8 @@ const UpdateSupplier = () => {
                         supplierPhone: supplier.supplierPhone || '',
                         supplierEmail: supplier.supplierEmail || '',
                         supplierAddress: supplier.supplierAddress || '',
-
+                        purchaseAmount: supplier.purchaseAmount || '',
+                        depositeAmount: supplier.depositeAmount || ''
                     });
                 } else {
                     toast.error('Supplier not found');
@@ -92,15 +95,14 @@ const UpdateSupplier = () => {
                 supplierName: '',
                 supplierAddress: '',
                 supplierPhone: '',
-                supplierEmail: ''
+                supplierEmail: '',
+                depositeAmount: ''
             })
-            navigate('/supplier/get')
             toast.success('Supplier updated successfully!');
-
+            navigate('/supplier/get')
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Failed to update Supplier';
             toast.error(errorMessage);
-            console.error(errorMessage);
         }
     };
 
@@ -114,7 +116,7 @@ const UpdateSupplier = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10">
+        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 capitalize">
             <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
                 <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Update Supplier Details</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -179,6 +181,22 @@ const UpdateSupplier = () => {
                             onChange={handleChange}
                             placeholder="Enter Supplier Email"
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                        />
+                    </div>
+
+                    {/* Deposite Amount */}
+                    <div>
+                        <label htmlFor="depositeAmount" className="block text-sm font-medium text-gray-700 mb-1">
+                            Deposite Amount
+                        </label>
+                        <input
+                            type="number"
+                            id="depositeAmount"
+                            name="depositeAmount"
+                            value={formData.depositeAmount}
+                            onChange={handleChange}
+                            placeholder="Enter Deposite Amount"
+                            className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>
 

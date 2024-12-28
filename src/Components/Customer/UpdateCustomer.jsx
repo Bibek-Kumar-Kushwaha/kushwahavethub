@@ -92,7 +92,7 @@ const UpdateCustomer = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 font-semibold">
+        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 font-semibold capitalize">
             <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
                 <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Update Customer</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -134,7 +134,7 @@ const UpdateCustomer = () => {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="Enter email"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none lowercase"
                         />
                     </div>
 

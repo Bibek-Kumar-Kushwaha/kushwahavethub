@@ -48,6 +48,7 @@ const AddCategory = () => {
         description: ''
       });
       toast.success(response?.data?.message || 'Category added successfully!');
+      navigate('/category/get')
     } catch (error) {
       toast.error(error.response?.data?.message || 'Something went wrong. Please try again.');
       setError("Something went wrong. Please try again.");
@@ -57,7 +58,7 @@ const AddCategory = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 font-semibold">
+    <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 font-semibold capitalize">
       <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
         <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">
           Add Category

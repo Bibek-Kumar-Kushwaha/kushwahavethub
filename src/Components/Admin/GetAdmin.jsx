@@ -81,7 +81,7 @@ const GetAdmin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 font-semibold">
+    <div className="min-h-screen bg-gray-100 p-4 font-semibold capitalize">
       <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Admin List</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {admins.map((admin) => (
@@ -97,12 +97,12 @@ const GetAdmin = () => {
                     className="w-full h-full rounded-full"
                   />
                 ) : (
-                  <span className="text-lg font-bold text-purple-800 uppercase">{admin.name[0]}</span>
+                  <span className="text-lg font-bold text-purple-800 capitalize">{admin.name[0]}</span>
                 )}
               </div>
               <div className="ml-4">
-                <h2 className="text-lg font-semibold uppercase text-purple-800">{admin.name}</h2>
-                <p className="text-sm text-gray-600">{admin.email || 'No Email'}</p>
+                <h2 className="text-lg font-semibold capitalize text-purple-800">{admin.name}</h2>
+                <p className="text-sm text-gray-600 lowercase">{admin.email || 'No Email'}</p>
               </div>
             </div>
 
@@ -130,13 +130,13 @@ const GetAdmin = () => {
 
             {/* Action Buttons */}
             <div className="flex justify-between items-center mt-4">
-              <Link
+              {/* <Link
                 to={`/admin/view/${admin._id}`}
                 className="flex items-center px-4 py-2 text-green-500 border border-green-500 rounded-md hover:bg-green-500 hover:text-white transition"
               >
                 <FaEye className="mr-2" />
                 View
-              </Link>
+              </Link> */}
               <div className="flex space-x-2">
                 <Link
                   to={`/admin/update/${admin._id}`}

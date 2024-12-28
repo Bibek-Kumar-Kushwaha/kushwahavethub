@@ -70,6 +70,9 @@ const GetCustomer = () => {
   const filteredUser = users.filter((user) => {
     return (
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.phone?.includes(searchTerm)
     );
   });
@@ -87,13 +90,13 @@ const GetCustomer = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 font-semibold">
-      <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Customer List</h1>
+    <div className="min-h-screen bg-gray-100 p-4 font-semibold capitalize">
+      <h1 className="text-3xl font-extrabold text-center mb-6 text-purple-600">Customer List</h1>
       {/* Search Bar */}
       <div className="mb-6 flex justify-center">
         <input
           type="text"
-          className="p-2 w-96 border border-gray-300 rounded-lg"
+          className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
           placeholder="Search by Name or Phone Number..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -112,12 +115,12 @@ const GetCustomer = () => {
                     className="w-full h-full rounded-full"
                   />
                 ) : (
-                  <span className="text-lg font-bold text-purple-800 uppercase">{user.name[0]}</span>
+                  <span className="text-lg font-extrabold text-purple-800 capitalize">{user.name[0]}</span>
                 )}
               </div>
               <div className="ml-4">
-                <h2 className="text-lg font-semibold uppercase text-purple-800">{user.name}</h2>
-                <p className="text-sm text-gray-600">{user.email || 'No Email'}</p>
+                <h2 className="text-lg font-bold capitalize text-purple-800">{user.name}</h2>
+                <p className="text-sm text-gray-600 lowercase">{user.email || 'No Email'}</p>
               </div>
             </div>
 

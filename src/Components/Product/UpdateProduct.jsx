@@ -49,7 +49,6 @@ const UpdateProduct = () => {
                 );
 
                 const product = response.data.data.allProduct.find((product) => product._id === id);
-                console.log(product)
                 if (product) {
                     setFormData({
                         productName: product.productName || '',
@@ -110,7 +109,7 @@ const UpdateProduct = () => {
                 unit: '',
             })
             navigate("/product/get");
-            // toast.success('Product updated successfully!');
+             toast.success('Product updated successfully!');
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Failed to update Product';
             toast.error(errorMessage);
@@ -127,7 +126,7 @@ const UpdateProduct = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10">
+        <div className="min-h-screen bg-gradient-to-r from-purple-100 to-blue-100 flex items-center justify-center py-10 font-semibold capitalize">
             <div className="bg-white shadow-xl rounded-lg px-8 py-10 max-w-lg w-full">
                 <h1 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Update Product</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -191,7 +190,7 @@ const UpdateProduct = () => {
                             value={formData.costPrice}
                             onChange={handleChange}
                             placeholder="Enter cost price"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>
 
@@ -207,7 +206,7 @@ const UpdateProduct = () => {
                             value={formData.sellingPrice}
                             onChange={handleChange}
                             placeholder="Enter selling price"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>
 
@@ -223,7 +222,7 @@ const UpdateProduct = () => {
                             value={formData.markPrice}
                             onChange={handleChange}
                             placeholder="Enter mark price"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>
 
@@ -233,13 +232,14 @@ const UpdateProduct = () => {
                             Stock Quantity
                         </label>
                         <input
+                            min={0}
                             type="number"
                             id="stockQuantity"
                             name="stockQuantity"
                             value={formData.stockQuantity}
                             onChange={handleChange}
-                            placeholder="Enter stock quantity"
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            placeholder="Enter Product quantity"
+                            className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>
 
@@ -264,6 +264,7 @@ const UpdateProduct = () => {
                             Description
                         </label>
                         <textarea
+                            type="text"
                             id="description"
                             name="description"
                             value={formData.description}
@@ -284,7 +285,7 @@ const UpdateProduct = () => {
                             name="unit"
                             value={formData.unit}
                             onChange={handleChange}
-                            placeholder="Enter unit"
+                            placeholder="Enter Unit"
                             className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                     </div>

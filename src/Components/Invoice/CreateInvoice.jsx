@@ -55,14 +55,22 @@ const CreateInvoice = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // handle Customer Change
+  // Handle Customer Change
   const handleCustomerChange = (value) => {
+    // Find customer by name or phone number
     const customer = customers.find(
-      (customer) => customer.name === value
+      (customer) =>
+        customer.name.toLowerCase() === value.toLowerCase() ||
+        customer.address.toLowerCase() === value.toLowerCase() ||
+        customer.phone === value
     );
+
+    // Set selected customer
     if (customer) setSelectedCustomer(customer);
     else setSelectedCustomer(null);
   };
+
+
 
   // handle Product Change
   const handleProductChange = (index, e) => {
@@ -163,7 +171,6 @@ const CreateInvoice = () => {
         }
       );
       toast.success("Invoice created successfully!");
-      console.log("API Response:", response.data);
       setFormData({
         name: "",
         discountName: "",
@@ -180,17 +187,17 @@ const CreateInvoice = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100">
+    <div className="p-6 bg-gray-100 font-semibold capitalize">
       {/* Header */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold">Kushwaha Pharma</h1>
+        <h1 className="text-3xl font-bold">Kushwaha VetHub</h1>
         <h2 className="text-lg">Godaita-5, Sarlahi</h2>
       </div>
 
       {/* Company Info */}
       <div className="flex justify-between mb-4">
-        <div className="text-gray-600">Pan Number: 123456789</div>
-        <div className="text-gray-600">Logo</div>
+        <div className="text-gray-600">Pan Number: SAMPLE</div>
+        <div className="text-gray-600">LOGO</div>
       </div>
       <hr className="h-1 bg-red-700 mb-4" />
 
@@ -202,9 +209,9 @@ const CreateInvoice = () => {
           <div>Address: {selectedCustomer?.address || "N/A"}</div>
         </div>
         <div>
-          <div>Bill No: 001</div>
+          <div>Bill No: Auto Generate</div>
           <div>Date: {new Date().toLocaleDateString()}</div>
-          <div>ID: INV1234</div>
+          <div>ID: {selectedCustomer?._id.slice(10) || "N/A"}</div>
         </div>
       </div>
       <hr className="h-1 bg-red-700 mb-4" />
@@ -216,7 +223,7 @@ const CreateInvoice = () => {
         {error && <p className="text-red-500 text-lg mb-4">{error}</p>}
 
         <div className="mb-4">
-          <label className="block text-gray-700">Customer Name</label>
+          <label className="block text-gray-700">Customer Name or Phone</label>
           <input
             type="text"
             list="customer-list"
@@ -224,47 +231,18 @@ const CreateInvoice = () => {
             value={formData.name}
             onChange={(e) => {
               handleCustomerChange(e.target.value);
-              handleChange(e);
+              handleChange(e); // Update form state if needed
             }}
             className="w-full px-4 py-2 border rounded-md"
           />
           <datalist id="customer-list">
             {customers.map((customer) => (
               <option key={customer.id} value={customer.name}>
-                {customer.name}
+                ({customer.address}) ({customer.phone})
               </option>
             ))}
           </datalist>
         </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Paid Amount</label>
-          <input
-            type="number"
-            name="paidAmount"
-            value={formData.paidAmount}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Discount</label>
-          <select
-            name="discountName"
-            value={formData.discountName}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
-          >
-            <option value="">Select Discount</option>
-            {discountList.map((discount) => (
-              <option key={discount.id} value={discount.discountName}>
-                {discount.discountName}
-              </option>
-            ))}
-          </select>
-        </div>
-
 
         {/* for mobile  */}
         <div className="space-y-6 lg:hidden">
@@ -332,31 +310,20 @@ const CreateInvoice = () => {
                   <button
                     type="button"
                     onClick={() => handleRemoveProduct(index)}
-                    className="text-red-600 hover:text-red-800"
+                    className="text-gray-200 hover:text-gray-800 bg-red-600 font-bold p-2 rounded-md"
                   >
                     Remove
                   </button>
                   <button
                     type="button"
                     onClick={() => handleAddProduct()}
-                    className="text-green-600 hover:text-green-800"
+                    className="text-gray-200 hover:text-gray-800 bg-green-600 font-bold p-2 rounded-md"
                   >
                     Add Product
                   </button>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Add Product Button */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={handleAddProduct}
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none"
-            >
-              Add Another Product
-            </button>
           </div>
         </div>
 
@@ -402,7 +369,7 @@ const CreateInvoice = () => {
                             name="quantity"
                             value={product.quantity}
                             onChange={(e) => handleProductChange(index, e)}
-                            className="w-full px-4 py-2 border rounded-md"
+                            className="remove-arrow w-full px-4 py-2 border rounded-md"
                           />
                         </td>
 
@@ -413,7 +380,8 @@ const CreateInvoice = () => {
                             name="sellingPrice"
                             value={product.rate}
                             onChange={(e) => handleProductChange(index, e)}
-                            className="w-full px-4 py-2 border rounded-md"
+                            className="remove-arrow w-full px-4 py-2 border rounded-md"
+                            readOnly
                           />
                         </td>
 
@@ -424,7 +392,7 @@ const CreateInvoice = () => {
                             name="amount"
                             value={product.amount}
                             onChange={(e) => handleProductChange(index, e)}
-                            className="w-full px-4 py-2 border rounded-md"
+                            className="remove-arrow w-full px-4 py-2 border rounded-md"
                             readOnly
                           />
                         </td>
@@ -466,6 +434,37 @@ const CreateInvoice = () => {
           </div>
         </div>
 
+        <div className="top-1 my-4">
+          <div className="mb-4">
+            <label className="block text-gray-700">Paid Amount</label>
+            <input
+              min={0}
+              type="number"
+              name="paidAmount"
+              value={formData.paidAmount}
+              onChange={handleChange}
+              className="remove-arrow w-full px-4 py-2 border rounded-md appearance-none focus:outline-none"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700">Discount</label>
+            <select
+              name="discountName"
+              value={formData.discountName}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-md"
+            >
+              <option value="">Select Discount</option>
+              {discountList.map((discount) => (
+                <option key={discount.id} value={discount.discountName}>
+                  {discount.discountName} ({discount.percentage}%)
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <button
           type="submit"
           className="my-2 w-full px-6 py-3 text-white font-semibold rounded-lg bg-purple-600"
@@ -474,7 +473,7 @@ const CreateInvoice = () => {
           {loading ? "Creating..." : "Create Invoice"}
         </button>
       </form>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

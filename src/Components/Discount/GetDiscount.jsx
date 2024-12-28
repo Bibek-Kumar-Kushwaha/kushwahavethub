@@ -90,7 +90,7 @@ const GetDiscount = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
+    <div className="min-h-screen bg-gray-100 py-10 capitalize">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center text-purple-600 mb-8">
           Discount List
@@ -99,7 +99,7 @@ const GetDiscount = () => {
         <div className="mb-6 flex justify-center">
           <input
             type="text"
-            className="p-2 w-96 border border-gray-300 rounded-lg"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Search by Categories Name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -111,7 +111,7 @@ const GetDiscount = () => {
               key={discount._id}
               className="bg-white shadow-md rounded-lg p-4 transition-transform transform hover:scale-105"
             >
-              <h2 className="text-xl font-bold text-gray-800">
+              <h2 className="text-xl font-bold text-gray-800 capitalize">
                 {discount.discountName}
               </h2>
               <p className="text-gray-600 mt-2">

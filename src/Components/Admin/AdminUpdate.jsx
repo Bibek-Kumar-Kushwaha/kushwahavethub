@@ -111,14 +111,16 @@ const AdminUpdate = () => {
     setFormData({
       name: '',
       phone: '',
+      address: '',
       email: '',
       password: '',
       role: '',
     })
+    navigate('/admin/get')
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 font-semibold">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 font-semibold capitalize">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-3xl font-extrabold text-purple-600 mb-6 text-center">Update Admin</h2>
 
@@ -161,7 +163,7 @@ const AdminUpdate = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md lowercase"
               placeholder="Enter Email"
               required
             />

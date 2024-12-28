@@ -2,25 +2,27 @@ import React, { useContext } from 'react';
 import Logout from '../Admin/Logout';
 import { AppContext } from '../../Utils/IsAdmin';
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 const Header = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
 
   return (
-    <header className="bg-gradient-to-r from-blue-500 to-green-500 text-white py-4 shadow-md sticky top-0">
+    <header className="bg-gradient-to-r from-gray-200 to-gray-400 text-white py-4 shadow-md sticky top-0 capitalize">
       <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
           {/* Logo Icon */}
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-            <span className="text-blue-500 font-bold text-2xl">K</span>
+          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+            <span className="text-black font-bold text-2xl">K</span>
           </div>
           {/* Logo Text */}
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            <span className="text-white">Kushwaha </span>
-            <span className="text-yellow-300">Pharma</span>
-          </h1>
+          <Link
+          to={'/'}
+           className="text-3xl font-extrabold tracking-tight">
+            <span className="text-black">Kushwaha </span>
+            <span className="text-blue-700">VetHub</span>
+          </Link>
           {/* Subtext */}
           {/* <p className="text-gray-600 text-lg sm:text-xl text-center">
             Compassionate Care for Your Beloved Pets

@@ -71,6 +71,7 @@ const GetSupplier = () => {
   const filteredSupplier = suppliers.filter((supplier) => {
     return (
       supplier.supplierName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      supplier.supplierAddress?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       supplier.supplierPhone.includes(searchTerm)
     );
   });
@@ -80,8 +81,8 @@ const GetSupplier = () => {
   if (!suppliers.length) return <p className="text-gray-600 text-xl text-center mt-10">No suppliers found</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 font-semibold">
-      <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Supplier List</h1>
+    <div className="min-h-screen bg-gray-100 p-4 font-semibold capitalize">
+      <h1 className="text-3xl text-center mb-6 text-purple-600 font-extrabold">Supplier List</h1>
       {/* Search Bar */}
       <div className="mb-6 flex justify-center">
         <input
@@ -104,14 +105,14 @@ const GetSupplier = () => {
                     className="w-full h-full rounded-full"
                   />
                 ) : (
-                  <span className="text-lg font-bold text-purple-800 uppercase">
+                  <span className="text-lg font-bold text-purple-800 capitalize">
                     {supplier.name?.[0] || 'S'}
                   </span>
                 )}
               </div>
               <div className="ml-4">
-                <h2 className="text-lg font-semibold uppercase text-purple-800">{supplier.supplierName || 'No Name'}</h2>
-                <p className="text-sm text-gray-600">{supplier.supplierEmail || 'No Email'}</p>
+                <h2 className="text-lg font-semibold capitalize text-purple-800">{supplier.supplierName || 'No Name'}</h2>
+                <p className="text-sm text-gray-600 lowercase">{supplier.supplierEmail || 'No Email'}</p>
               </div>
             </div>
             <div className="text-sm space-y-2">
@@ -149,7 +150,7 @@ const GetSupplier = () => {
           </div>
         ))}
       </div>
-      <Toaster position="top-right" />
+      <Toaster />
     </div>
   );
 };

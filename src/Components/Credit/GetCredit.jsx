@@ -37,7 +37,7 @@ const CreditList = () => {
           }
         );
         setCredits(response.data.data.creditDetails);
-        toast.success(response?.data?.message || "All Credit Fetched");
+        // toast.success(response?.data?.message || "All Credit Fetched");
         setLoading(false);
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to fetch admin profile");
@@ -74,30 +74,30 @@ const CreditList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 py-10 font-semibold capitalize">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-center text-purple-600 mb-8">Credit Data</h1>
+        <h1 className="text-3xl text-center text-purple-600 mb-8 font-extrabold">Credit Data</h1>
 
         {/* Search and Filter Inputs */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center">
           <input
             type="text"
-            className="p-2 w-full sm:w-96 border border-gray-300 rounded-lg"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Search by Name And Address..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <input
             type="number"
-            className="p-2 w-full sm:w-48 border border-gray-300 rounded-lg"
-            placeholder="Min Credit Amount"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Show Credit with Greater than this value"
             value={minCredit}
             onChange={(e) => setMinCredit(e.target.value)}
           />
           <input
             type="number"
-            className="p-2 w-full sm:w-48 border border-gray-300 rounded-lg"
-            placeholder="Max Credit Amount"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="Show Credit with less than this value"
             value={maxCredit}
             onChange={(e) => setMaxCredit(e.target.value)}
           />
@@ -109,7 +109,7 @@ const CreditList = () => {
               key={credit._id}
               className="shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow transform hover:scale-105"
             >
-              <h2 className="text-lg font-bold text-purple-800 mb-2">{credit.name}</h2>
+              <h2 className="text-lg font-bold text-purple-800 mb-2 capitalize">{credit.name}</h2>
               <h3 className="text-md text-gray-600 mb-1">
                 <span className="font-medium">Address:</span> {credit.address || "N/A"}
               </h3>

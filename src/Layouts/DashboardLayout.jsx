@@ -12,7 +12,7 @@ const DashboardLayout = ({ pageName, sections }) => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6 font-semibold">
+    <div className="bg-gray-100 min-h-screen p-6 font-semibold capitalize">
       <h1 className="text-4xl font-bold text-center mb-6 text-purple-600">{pageName}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {sections.map((section, index) => (

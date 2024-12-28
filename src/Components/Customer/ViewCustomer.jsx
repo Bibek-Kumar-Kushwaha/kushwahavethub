@@ -47,7 +47,7 @@ const CustomerDetails = () => {
   const { user, credit } = userData;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <div className="min-h-screen bg-gray-100 p-4 capitalize">
       <h1 className="text-3xl font-bold text-center mb-6 text-purple-600">Customer Details</h1>
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 space-y-6">
         {/* User Details Section */}
@@ -60,14 +60,14 @@ const CustomerDetails = () => {
                 className="w-full h-full rounded-full"
               />
             ) : (
-              <span className="text-xl font-bold text-purple-800 uppercase">
+              <span className="text-xl font-bold text-purple-800 capitalize">
                 {user.name[0]}
               </span>
             )}
           </div>
           <div>
             <h2 className="text-xl font-semibold text-gray-700">{user.name}</h2>
-            <p className="text-gray-600">{user.email || "No Email Provided"}</p>
+            <p className="text-gray-600 lowercase">{user.email || "No Email Provided"}</p>
             <p className="text-gray-600">{user.phone}</p>
           </div>
         </div>
@@ -99,13 +99,13 @@ const CustomerDetails = () => {
           <h3 className="text-lg font-semibold text-purple-700 mb-3">Credit Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <p>
-              <span className="font-bold">Credit Amount:</span> ${credit.creditAmount || 'N/A'}
+              <span className="font-bold">Credit Amount:</span> रु {credit.creditAmount || 'N/A'}
             </p>
             <p>
-              <span className="font-bold">Paid Amount:</span> ${credit.paidAmount || 'N/A'}
+              <span className="font-bold">Paid Amount:</span> रु {credit.paidAmount || 'N/A'}
             </p>
             <p>
-              <span className="font-bold">Sell Amount:</span> ${credit.sellAmount || 'N/A'}
+              <span className="font-bold">Sell Amount:</span> रु {credit.sellAmount || 'N/A'}
             </p>
             <p>
               <span className="font-bold">Phone Number:</span> {credit.phone || 'N/A'}

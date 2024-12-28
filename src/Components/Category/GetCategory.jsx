@@ -30,7 +30,6 @@ const GetCategory = () => {
             headers: { "Content-Type": "application/json" },
           }
         );
-        console.log(response)
         setCategories(response.data.data.allCategory);
         // toast.success('Categories fetched successfully');
       } catch (err) {
@@ -78,14 +77,14 @@ const GetCategory = () => {
   if (!categories.length) return <p className="text-gray-500 text-center text-xl">No categories available</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 font-semibold">
+    <div className="min-h-screen bg-gray-50 py-10 font-semibold capitalize">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center text-purple-600 mb-8">All Categories</h1>
         {/* Search Bar */}
         <div className="mb-6 flex justify-center">
           <input
             type="text"
-            className="p-2 w-96 border border-gray-300 rounded-lg"
+            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Search by Categories Name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
