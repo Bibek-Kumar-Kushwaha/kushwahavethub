@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../../Utils/IsAdmin";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -15,6 +15,12 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   axios.defaults.withCredentials = true;
   const navigate = useNavigate();
+
+    useEffect(() => {
+       if(isAuth){
+        navigate('/')
+       }
+    })
 
   // Handle input changes
   const handleChange = (e) => {
@@ -117,6 +123,18 @@ const Login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+        <div className="text-center mt-3">
+          <p>
+          Don't have an account?{' '}
+            <Link
+              className="text-purple-700 hover:underline transition-colors duration-200 font-bold"
+              to="/signup"
+            >
+              Signup
+            </Link>
+          </p>
+        </div>
+
       </form>
       <Toaster />
     </div>

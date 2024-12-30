@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { AppContext } from '../../Utils/IsAdmin';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -12,18 +12,18 @@ const Register = () => {
   const navigate = useNavigate();
   const { isAuth, setIsAuth } = useContext(AppContext);
 
-  useEffect(() => {
-    if (!isAuth) {
-      navigate("/login");
-    }
-  }, [isAuth, navigate]);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
   });
+
+  useEffect(() => {
+     if(isAuth){
+      navigate('/')
+     }
+  })
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -152,6 +152,17 @@ const Register = () => {
         >
           {loading ? "Registering...." : "Register"}
         </button>
+        <div className="text-center mt-3">
+          <p>
+            Already have an account?{' '}
+            <Link
+              className="text-purple-700 hover:underline transition-colors duration-200 font-bold"
+              to="/login"
+            >
+              Login
+            </Link>
+          </p>
+        </div>
       </form>
       <Toaster />
     </div>

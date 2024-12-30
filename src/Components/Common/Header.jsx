@@ -3,6 +3,7 @@ import Logout from '../Admin/Logout';
 import { AppContext } from '../../Utils/IsAdmin';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import logo from '../../assets/shopLogo.jpg'
 const Header = () => {
   const navigate = useNavigate();
   const { isAuth } = useContext(AppContext);
@@ -13,13 +14,17 @@ const Header = () => {
         {/* Logo Section */}
         <div className="flex items-center space-x-2">
           {/* Logo Icon */}
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-black font-bold text-2xl">K</span>
+          <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center">
+            <img
+              className="w-[90%] h-[90%] object-cover rounded-full"
+              src={logo}
+              alt="logo" />
           </div>
+
           {/* Logo Text */}
           <Link
-          to={'/'}
-           className="text-3xl font-extrabold tracking-tight">
+            to={'/'}
+            className="text-3xl font-extrabold tracking-tight">
             <span className="text-black">Kushwaha </span>
             <span className="text-blue-700">VetHub</span>
           </Link>

@@ -273,7 +273,7 @@ const PrintInvoice = () => {
                     </div>
     
                     <div class="footer">
-                        Thank you for your business!
+                        "Your satisfaction is our priority."
                     </div>
                 </div>
             </body>
