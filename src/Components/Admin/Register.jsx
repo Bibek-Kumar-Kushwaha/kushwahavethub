@@ -19,11 +19,11 @@ const Register = () => {
     phone: "",
   });
 
-  useEffect(() => {
-     if(isAuth){
-      navigate('/')
-     }
-  })
+  // useEffect(() => {
+  //    if(isAuth){
+  //     navigate('/')
+  //    }
+  // })
 
   const handleChange = (e) => {
     const { name, value } = e.target;
