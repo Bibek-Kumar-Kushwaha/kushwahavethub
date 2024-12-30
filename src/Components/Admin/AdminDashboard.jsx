@@ -5,7 +5,7 @@ const AdminDashboard = () => {
   const adminSections = [
     {
       name: 'Register As Admin',
-      link: '/admin/add',
+      link: '/signup',
       bgColor: 'bg-blue-500',
       hoverColor: 'bg-blue-600',
       icon: 'add',
