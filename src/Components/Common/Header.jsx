@@ -24,7 +24,7 @@ const Header = () => {
           {/* Logo Text */}
           <Link
             to={'/'}
-            className="text-3xl font-extrabold tracking-tight">
+            className="md:text-3xl text-xl font-extrabold tracking-tight">
             <span className="text-black">Kushwaha </span>
             <span className="text-blue-700">VetHub</span>
           </Link>

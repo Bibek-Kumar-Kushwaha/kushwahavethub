@@ -3,10 +3,10 @@ import logo from '../../assets/shopLogo.jpg'
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-300 text-center py-2 sticky bottom-0 capitalize">
+    <footer className="bg-gray-300 text-center py-2 sticky bottom-0 capitalize px-4">
       <div className="flex justify-center">
         <div className="">
-          <div className="w-28 h-28 md:w-20 md:h-20  bg-blue-500 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 md:w-20 md:h-20  bg-blue-500 rounded-full flex items-center justify-center">
             <img
               className='bg-gray-950 rounded-full w-[90%] h-[90%]'
               src={logo}
@@ -15,7 +15,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="">
-          <h1 className="text-3xl font-extrabold tracking-tight">
+          <h1 className="md:text-3xl text-xl font-extrabold tracking-tight">
             <span className="text-black">Kushwaha </span>
             <span className="text-blue-700">VetHub</span>
           </h1>
