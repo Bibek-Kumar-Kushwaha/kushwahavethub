@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { AppContext } from '../../Utils/IsAdmin';
 import { useNavigate } from 'react-router-dom';
@@ -12,29 +11,16 @@ const Logout = () => {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/admin/logout`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      // Clear localStorage
+      // Clear localStorage (no database call needed)
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
 
       // Update authentication state and navigate
       setIsAuth(false);
-      toast.success(response?.data?.message || 'Logout successful!');
+      toast.success('Logout successful!');
       navigate('/login');
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 'Something went wrong during logout.'
-      );
+      toast.error('Something went wrong during logout.');
     } finally {
       setIsLoading(false);
     }
