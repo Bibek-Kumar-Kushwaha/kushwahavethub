@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../Utils/IsAdmin";
+import logo from '../../assets/shopLogo.jpg'
 
 const PrintInvoice = () => {
     const navigate = useNavigate();
@@ -52,57 +53,75 @@ const PrintInvoice = () => {
     // Function to generate PDF
     const downloadPDF = () => {
         const doc = new jsPDF("p", "mm", "a4");
-
-        // Add Header
-        doc.setFontSize(16);
+    
+        // Header Section
         doc.setFont("helvetica", "bold");
-        doc.text("Kushwaha VetHub", 105, 10, { align: "center" });
+        doc.setFontSize(16);
+        doc.text("Kushwaha", 95, 20, { align: "center" });
+        doc.setTextColor(51, 0, 255);
+        doc.text("VetHub", 120, 20, { align: "center" });
         doc.setFontSize(12);
         doc.setFont("helvetica", "normal");
-        doc.text("Godaita-5, Sarlahi", 105, 16, { align: "center" });
-
-        // Invoice Details
-        doc.setFontSize(12);
-        doc.text(`Name: ${invoice.name}`, 10, 30);
-        doc.text(`Phone: ${invoice.phone}`, 10, 36);
-        doc.text(`Address: ${invoice.address}`, 10, 42);
-
-        doc.text(`Bill No: ${invoice.billNumber}`, 150, 30);
-        doc.text(`Date: ${new Date(invoice.date).toLocaleDateString()}`, 150, 36);
-        doc.text(`ID: ${invoice._id || "N/A"}`, 150, 42);
-
-        // Add Table Header
-        const headers = ["SN", "Product Name", "Quantity", "Rate", "Amount"];
-        let y = 60;
-        headers.forEach((header, i) => {
-            const x = 10 + i * 35; // Adjust header spacing
+        doc.setTextColor(42, 157, 143); // Cool Teal
+        doc.text("Godaita-5, Sarlahi", 105, 26, { align: "center" });
+    
+        // Pan Number and Logo
+        const logoImage = logo; // Base64 encoded image string
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Pan Number: 123456789`, 10, 40);
+        if (logoImage) {
+            doc.addImage(logoImage, "JPEG", 180, 30, 20, 20, 8); // Adjust dimensions and position
+        }
+    
+        // Invoice Details Section
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        let y = 50;
+        doc.text(`Name: ${invoice.name}`, 10, y);
+        doc.text(`Phone: ${invoice.phone}`, 10, y + 6);
+        doc.text(`Address: ${invoice.address}`, 10, y + 12);
+    
+        doc.text(`Bill No: ${invoice.billNumber}`, 150, y);
+        doc.text(`Date: ${new Date(invoice.date).toLocaleDateString()}`, 150, y + 6);
+        doc.text(`ID: ${invoice._id || "N/A"}`, 150, y + 12);
+    
+        // Table Header
+        y += 20;
+        const tableHeaders = ["SN", "Product Name", "Quantity", "Rate", "Amount"];
+        const tableHeaderX = [10, 20, 60, 80, 100];
+        tableHeaders.forEach((header, index) => {
             doc.setFont("helvetica", "bold");
-            doc.text(header, x, y);
+            doc.setFontSize(10);
+            doc.setFillColor(255, 255, 255); // Deep Royal Blue
+            doc.setTextColor(0, 0, 0);
+            doc.rect(tableHeaderX[index], y, 30, 8, "F"); // Fill rectangle
+            doc.text(header, tableHeaderX[index] + 2, y + 6);
         });
-
+    
         // Table Content
+        y += 12;
         invoice.products.forEach((product, index) => {
-            y += 8;
-            const row = [
+            const tableRow = [
                 `${index + 1}`,
                 product.productName,
                 product.quantity.toString(),
                 product.sellingPrice.toString(),
                 product.amount.toString(),
             ];
-            row.forEach((cell, i) => {
-                const x = 10 + i * 35;
+            tableRow.forEach((cell, cellIndex) => {
                 doc.setFont("helvetica", "normal");
-                doc.text(cell, x, y);
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                doc.text(cell, tableHeaderX[cellIndex] + 2, y);
             });
+            y += 8;
         });
-
+    
         // Summary Section
-        y += 15;
-        doc.setFont("helvetica", "bold");
-        // doc.text("Summary", 10, y);
-
-        const summary = [
+        y += 10;
+        const summaryData = [
             ["Grand Total", invoice.grandTotal || 0],
             ["Discount Amount", invoice.discountAmount || 0],
             ["Due Amount", invoice.oldCreditAmount || 0],
@@ -110,14 +129,21 @@ const PrintInvoice = () => {
             ["Paid Amount", invoice.paidAmount || 0],
             ["Credit Amount", invoice.creditAmount || 0],
         ];
-
-        summary.forEach(([label, value]) => {
-            y += 8;
+    
+        summaryData.forEach(([label, value]) => {
             doc.setFont("helvetica", "normal");
-            doc.text(`${label}:`, 120, y);
-            doc.text(`${value}`, 170, y, { align: "right" });
+            doc.setFontSize(10);
+            doc.text(`${label}:`, 100, y);
+            doc.text(`${value}`, 160, y, { align: "right" });
+            y += 8;
         });
-
+    
+        // Footer
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "italic");
+        doc.setTextColor(119, 119, 119); // Light Grey
+        doc.text('"Your satisfaction is our priority."', 105, y + 10, { align: "center" });
+    
         // Save the document
         doc.save(`${invoice.billNumber || "Invoice"}_invoice.pdf`);
     };
@@ -209,8 +235,31 @@ const PrintInvoice = () => {
                       flex: 1;
                       text-align: right;
                     }
-   
-                    
+                    .pan-number {
+                      font-size: 16px;
+                      font-weight: bold;
+                    }
+                    .logo-container img {
+                     background-color: #1a1a1a; /* Tailwind gray-950 */
+                     border-radius: 50%;
+                     width: 90%;
+                     height: 90%;
+                    }        
+                     .logo-container {
+                     width: 80px;
+                     height: 80px;
+                     background-color: #3b82f6; /* Tailwind blue-500 */
+                     border-radius: 50%;
+                     display: flex;
+                     align-items: center;
+                     justify-content: center;
+                    }
+                     .container1 {
+                     display: flex;
+                     justify-content: space-between;
+                     align-items: center;
+                     padding: 10px;
+                   }
                                     </style>
                                 </head>
                                 <body>
@@ -219,7 +268,13 @@ const PrintInvoice = () => {
                                             <h1>Kushwaha <span class="color"> VetHub </span></h1>
                                             <h2>Godaita-5, Sarlahi</h2>
                                         </div>
-                        
+                                        <div class="container1">
+                                            <div class="pan-number">Pan Number: 123456789</div>
+                                            <div class="logo-container">
+                                                <img src=${logo} alt="logo" />
+                                            </div>
+                                        </div>
+
                     <div class="invoice-details">
                       <!-- Left Section -->
                       <div class="left-section">
@@ -304,8 +359,12 @@ const PrintInvoice = () => {
                     <div className="text-sm">
                         <p className="font-semibold">Pan Number: <span className="text-gray-600">123456789</span></p>
                     </div>
-                    <div className="text-gray-500 text-sm">
-                        <span className="text-lg font-bold">LOGO</span>
+                    <div className="w-16 h-16 md:w-20 md:h-20  bg-blue-500 rounded-full flex items-center justify-center">
+                        <img
+                            className='bg-gray-950 rounded-full w-[90%] h-[90%]'
+                            src={logo}
+                            alt="logo" />
+                        {/* <span className="text-black font-bold text-2xl">K</span> */}
                     </div>
                 </div>
 

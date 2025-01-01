@@ -133,6 +133,7 @@ const AddProduct = () => {
               Cost Price
             </label>
             <input
+              min={0}
               type="number"
               id="costPrice"
               name="costPrice"
@@ -140,7 +141,7 @@ const AddProduct = () => {
               onChange={handleChange}
               required
               placeholder="Enter cost price"
-              className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="remove-arrow appearance-none w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
           </div>
 
@@ -150,6 +151,7 @@ const AddProduct = () => {
               Selling Price
             </label>
             <input
+              min={0}
               type="number"
               id="sellingPrice"
               name="sellingPrice"
@@ -167,12 +169,12 @@ const AddProduct = () => {
               Mark Price
             </label>
             <input
+              min={0}
               type="number"
               id="markPrice"
               name="markPrice"
               value={formData.markPrice}
               onChange={handleChange}
-              required
               placeholder="Enter mark price"
               className="remove-arrow w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />

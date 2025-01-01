@@ -184,6 +184,7 @@ const UpdateProduct = () => {
                             Cost Price
                         </label>
                         <input
+                            min={0}
                             type="number"
                             id="costPrice"
                             name="costPrice"
@@ -200,6 +201,7 @@ const UpdateProduct = () => {
                             Selling Price
                         </label>
                         <input
+                            min={0}
                             type="number"
                             id="sellingPrice"
                             name="sellingPrice"
@@ -216,6 +218,7 @@ const UpdateProduct = () => {
                             Mark Price
                         </label>
                         <input
+                            min={0}
                             type="number"
                             id="markPrice"
                             name="markPrice"

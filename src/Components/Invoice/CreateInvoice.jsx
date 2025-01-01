@@ -272,11 +272,12 @@ const CreateInvoice = () => {
                 <div className="mb-4">
                   <label className="block text-gray-700">Quantity</label>
                   <input
+                    min={0}
                     type="number"
                     name="quantity"
                     value={product.quantity}
                     onChange={(e) => handleProductChange(index, e)}
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                    className="remove-arrow w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -284,11 +285,12 @@ const CreateInvoice = () => {
                 <div className="mb-4">
                   <label className="block text-gray-700">Selling Price</label>
                   <input
+                    min={0}
                     type="number"
                     name="sellingPrice"
                     value={product.rate}
                     onChange={(e) => handleProductChange(index, e)}
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                    className="read-only remove-arrow w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -296,11 +298,12 @@ const CreateInvoice = () => {
                 <div className="mb-4">
                   <label className="block text-gray-700">Amount</label>
                   <input
+                    min={0}
                     type="number"
                     name="amount"
                     value={product.amount}
                     onChange={(e) => handleProductChange(index, e)}
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+                    className="read-only remove-arrow w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
                     readOnly
                   />
                 </div>

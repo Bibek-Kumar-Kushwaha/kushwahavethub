@@ -190,6 +190,7 @@ const UpdateSupplier = () => {
                             Deposite Amount
                         </label>
                         <input
+                            min={0}
                             type="number"
                             id="depositeAmount"
                             name="depositeAmount"

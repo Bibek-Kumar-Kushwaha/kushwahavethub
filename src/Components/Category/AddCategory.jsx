@@ -92,7 +92,6 @@ const AddCategory = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              required
               placeholder="Enter description"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
