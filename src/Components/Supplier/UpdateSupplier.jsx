@@ -54,7 +54,7 @@ const UpdateSupplier = () => {
                         supplierEmail: supplier.supplierEmail || '',
                         supplierAddress: supplier.supplierAddress || '',
                         purchaseAmount: supplier.purchaseAmount || '',
-                        depositeAmount: supplier.depositeAmount || ''
+                        depositeAmount: ''
                     });
                 } else {
                     toast.error('Supplier not found');
